@@ -11,12 +11,9 @@ export const useMovieStore = defineStore('movies', () => {
     movies.value = await getMovies();
   } 
 
+
   const getNewPageMovies = async () => {
-    const queryOptions = ref({
-      page: page.value
-    })
-    
-    const newMovies:Movie[] = await getMovies(queryOptions);
+    const newMovies:Movie[] = await getMovies(page.value);
 
     movies.value = [...movies.value, ...newMovies];
   } 
