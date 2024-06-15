@@ -1,27 +1,25 @@
-import { ref, type Ref } from 'vue';
-import { defineStore } from 'pinia';
-import type { Movie } from '@/types/movie';
-import { getMovies } from '@/api/getMovies';
+import { ref, type Ref } from 'vue'
+import { defineStore } from 'pinia'
+import type { Movie } from '@/types/movie'
+import { getMoviesApi } from '@/api/getMovies'
 
 export const useMovieStore = defineStore('movies', () => {
-  const movies: Ref<Movie[]> = ref([]);
-  const page: Ref<number> = ref(1);
+  const movies: Ref<Movie[]> = ref([])
+  const page: Ref<number> = ref(1)
+  const loading: Ref<boolean> = ref(true)
 
-  const getFirstMovies = async () => {
-    movies.value = await getMovies();
-  } 
+  const getMovies = async () => {
+    const newMovies: Movie[] = await getMoviesApi(page.value)
 
+    loading.value = false
 
-  const getNewPageMovies = async () => {
-    const newMovies:Movie[] = await getMovies(page.value);
-
-    movies.value = [...movies.value, ...newMovies];
-  } 
+    movies.value = [...movies.value, ...newMovies]
+  }
 
   return {
-    getFirstMovies,
-    getNewPageMovies,
+    getMovies,
     movies,
     page,
+    loading
   }
 })

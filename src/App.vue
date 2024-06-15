@@ -6,7 +6,7 @@
   const movieStore = useMovieStore();
 
   onMounted(() => {
-    movieStore.getFirstMovies();
+    movieStore.getMovies();
   });
 </script>
 
